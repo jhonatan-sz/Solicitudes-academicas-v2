@@ -6,9 +6,25 @@ export async function loginApi(email: string, password: string): Promise<LoginRe
   return data
 }
 
-export async function refreshApi(): Promise<RefreshResponse> {
-  const { data } = await api.post<RefreshResponse>('/api/auth/refresh')
-  return data
+let refreshInFlight: Promise<RefreshResponse> | null = null
+
+/**
+ * Deduplica las peticiones de refresh concurrentes.
+ *
+ * Al recargar, React StrictMode monta el efecto dos veces en desarrollo y
+ * ambas llamadas compiten contra un refresh token rotativo: la segunda llega
+ * con el token ya consumido y tumba la sesión. Con una sola petición en vuelo,
+ * las dos esperan el mismo resultado.
+ */
+export function refreshApi(): Promise<RefreshResponse> {
+  refreshInFlight ??= api
+    .post<RefreshResponse>('/api/auth/refresh')
+    .then(({ data }) => data)
+    .finally(() => {
+      refreshInFlight = null
+    })
+
+  return refreshInFlight
 }
 
 export async function logoutApi(): Promise<void> {
