@@ -1,2 +1,26 @@
+# Dependencias
+node_modules/
+
+# Builds
+dist/
+coverage/
+
+# Variables de entorno (nunca se versionan)
+.env
+.env.local
+.env.*.local
+
+# Archivos subidos en local
+apps/api/uploads/
+
+# Logs
+*.log
+
+# Sistema operativo / editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Carpeta local de trabajo (no forma parte del proyecto)
 open/
-docs/

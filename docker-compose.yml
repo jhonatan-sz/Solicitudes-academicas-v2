@@ -1,0 +1,30 @@
+# PostgreSQL para desarrollo local.
+#
+#   docker compose up -d
+#   DATABASE_URL="postgresql://solicitudes:solicitudes@localhost:5433/solicitudes"
+#
+# Se expone en 5433 para no chocar con un PostgreSQL ya instalado en 5432.
+# Si tu 5432 está libre puedes cambiar el mapeo a "5432:5432" y el puerto de
+# la URL.
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: solicitudes-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: solicitudes
+      POSTGRES_PASSWORD: solicitudes
+      POSTGRES_DB: solicitudes
+    ports:
+      - '5433:5432'
+    volumes:
+      - solicitudes_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U solicitudes -d solicitudes']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  solicitudes_pgdata:
