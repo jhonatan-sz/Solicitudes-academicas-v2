@@ -24,3 +24,6 @@ Thumbs.db
 
 # Carpeta local de trabajo (no forma parte del proyecto)
 open/
+
+# Notas locales del agente
+.agent/

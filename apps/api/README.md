@@ -49,5 +49,6 @@ src/
 ```
 
 La regla de negocio central vive en
-`src/common/rbac/request-workflow.rules.ts`: una máquina de estados pura
-(sin dependencias de Nest ni de la base de datos) cubierta por 58 tests.
+`src/common/rbac/request-workflow.rules.ts`: una máquina de estados pura (sin
+dependencias de Nest ni acceso a la base de datos; solo los enums de Prisma)
+cubierta por 58 tests.

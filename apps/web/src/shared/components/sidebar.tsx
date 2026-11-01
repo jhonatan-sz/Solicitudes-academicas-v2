@@ -17,7 +17,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/shared/lib/utils'
-import { useAuth } from '@/app/providers/auth-provider'
+import { useAuth } from '@/app/providers/auth-context'
 import { usePermissions } from '@/shared/hooks/use-permissions'
 import { useDashboardStats } from '@/features/requests/hooks/use-requests'
 

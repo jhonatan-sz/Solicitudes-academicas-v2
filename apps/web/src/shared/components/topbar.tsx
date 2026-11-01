@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Menu, PanelLeftClose, PanelLeftOpen, User, LogOut, Bell, Sun, Moon } from 'lucide-react'
-import { useAuth } from '@/app/providers/auth-provider'
+import { useAuth } from '@/app/providers/auth-context'
 import { useTheme } from 'next-themes'
 import {
   DropdownMenu,

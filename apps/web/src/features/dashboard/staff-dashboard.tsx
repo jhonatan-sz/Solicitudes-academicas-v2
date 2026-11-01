@@ -12,7 +12,7 @@ import { QuickActions, type QuickAction } from '@/features/dashboard/widgets/qui
 import { AlertBanner } from '@/features/dashboard/widgets/alert-banner'
 import { Widget } from '@/features/dashboard/widgets/widget'
 import { ActivityFeed, type ActivityItem } from '@/features/dashboard/widgets/activity-feed'
-import { useAuth } from '@/app/providers/auth-provider'
+import { useAuth } from '@/app/providers/auth-context'
 
 export function StaffDashboard() {
   const navigate = useNavigate()

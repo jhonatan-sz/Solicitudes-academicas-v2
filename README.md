@@ -25,18 +25,26 @@ practicar lo que me interesa: **modelado de dominio, reglas de autorización y
 testing**. La interfaz es la cara visible; la parte que me interesa mostrar es
 el backend.
 
-> Proyecto académico, no está desplegado en producción. Se corre en local en dos
-> comandos (ver [Cómo correrlo](#cómo-correrlo)).
+> Proyecto académico, no está desplegado en producción. Se levanta en local con
+> PostgreSQL y npm (ver [Cómo correrlo](#cómo-correrlo)).
 
 ## Capturas
 
-| Dashboard del estudiante | Bandeja de solicitudes |
+| Inicio de sesión | Dashboard del estudiante |
 |---|---|
-| ![Dashboard](docs/screenshots/dashboard-estudiante.png) | ![Solicitudes](docs/screenshots/solicitudes.png) |
+| ![Login](docs/screenshots/login.png) | ![Dashboard](docs/screenshots/dashboard-estudiante.png) |
 
-| Detalle con historial de estados | Administración de usuarios |
+| Bandeja de solicitudes | Detalle con historial de estados |
 |---|---|
-| ![Detalle](docs/screenshots/detalle-solicitud.png) | ![Admin](docs/screenshots/admin-usuarios.png) |
+| ![Solicitudes](docs/screenshots/solicitudes.png) | ![Detalle](docs/screenshots/detalle-solicitud.png) |
+
+<div align="center">
+
+**Administración de usuarios**
+
+![Admin](docs/screenshots/admin-usuarios.png)
+
+</div>
 
 ## Roles
 
@@ -171,7 +179,9 @@ Todos bajo `/api` (documentación completa en Swagger):
 
 1. **La regla de negocio es código puro, no `if`s dispersos.** Las matrices de
    transición por rol viven en `request-workflow.rules.ts`, sin dependencias de
-   Nest ni de Prisma. Se testean en milisegundos y el servicio solo las invoca.
+   Nest ni acceso a la base de datos: solo usa los enums generados por Prisma
+   (`RequestStatus`, `RoleName`). Se testean en milisegundos y el servicio solo
+   las invoca.
 2. **ADMIN no es un comodín.** Tiene la unión de las capacidades de STAFF y
    COORDINATOR, pero sigue sujeto a las transiciones válidas: si el workflow no
    permite `DRAFT -> APPROVED`, el admin tampoco puede.

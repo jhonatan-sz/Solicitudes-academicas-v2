@@ -24,7 +24,7 @@ import {
   Loader2,
   AlertCircle,
 } from 'lucide-react'
-import { useAuth } from '@/app/providers/auth-provider'
+import { useAuth } from '@/app/providers/auth-context'
 import { usePermissions } from '@/shared/hooks/use-permissions'
 import { useState } from 'react'
 

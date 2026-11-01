@@ -1,4 +1,4 @@
-import { useAuth } from '@/app/providers/auth-provider'
+import { useAuth } from '@/app/providers/auth-context'
 import type { RequestStatus, RoleName } from '@/shared/types'
 
 /**

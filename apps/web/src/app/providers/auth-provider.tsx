@@ -1,6 +1,4 @@
 import {
-  createContext,
-  useContext,
   useEffect,
   useRef,
   useState,
@@ -9,24 +7,7 @@ import {
 import type { AuthUser } from '@/shared/types'
 import { loginApi, refreshApi, logoutApi, meApi } from '@/features/auth/api/auth-api'
 import { configureAuthInterceptors } from '@/shared/api/client'
-
-interface AuthContextValue {
-  user: AuthUser | null
-  isAuthenticated: boolean
-  isLoading: boolean
-  login: (email: string, password: string) => Promise<void>
-  logout: () => Promise<void>
-}
-
-const AuthContext = createContext<AuthContextValue | null>(null)
-
-export function useAuth(): AuthContextValue {
-  const ctx = useContext(AuthContext)
-  if (!ctx) {
-    throw new Error('useAuth must be used within AuthProvider')
-  }
-  return ctx
-}
+import { AuthContext } from './auth-context'
 
 interface AuthProviderProps {
   children: ReactNode

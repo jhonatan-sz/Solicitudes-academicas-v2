@@ -50,19 +50,19 @@ Write-Host "========================================`n" -ForegroundColor Cyan
 # AUTHENTICATION
 Write-Host "1. AUTHENTICATION" -ForegroundColor Yellow
 
-$result = Invoke-Api -method "POST" -endpoint "/auth/login" -body @{ email = "admin@ul.edu.co"; password = "admin123" }
+$result = Invoke-Api -method "POST" -endpoint "/auth/login" -body @{ email = "admin@demo.edu.co"; password = "Demo1234!" }
 if ($result.success) { $adminToken = $result.data.accessToken; Write-Test "Admin login" "PASS" } else { Write-Test "Admin login" "FAIL" $result.error }
 Start-Sleep -Seconds 1
 
-$result = Invoke-Api -method "POST" -endpoint "/auth/login" -body @{ email = "coordinador@ul.edu.co"; password = "coordinador123" }
+$result = Invoke-Api -method "POST" -endpoint "/auth/login" -body @{ email = "coordinador@demo.edu.co"; password = "Demo1234!" }
 if ($result.success) { $coordinatorToken = $result.data.accessToken; Write-Test "Coordinator login" "PASS" } else { Write-Test "Coordinator login" "FAIL" $result.error }
 Start-Sleep -Seconds 1
 
-$result = Invoke-Api -method "POST" -endpoint "/auth/login" -body @{ email = "funcionario@ul.edu.co"; password = "funcionario123" }
+$result = Invoke-Api -method "POST" -endpoint "/auth/login" -body @{ email = "funcionario@demo.edu.co"; password = "Demo1234!" }
 if ($result.success) { $staffToken = $result.data.accessToken; Write-Test "Staff login" "PASS" } else { Write-Test "Staff login" "FAIL" $result.error }
 Start-Sleep -Seconds 1
 
-$result = Invoke-Api -method "POST" -endpoint "/auth/login" -body @{ email = "estudiante@ul.edu.co"; password = "estudiante123" }
+$result = Invoke-Api -method "POST" -endpoint "/auth/login" -body @{ email = "estudiante@demo.edu.co"; password = "Demo1234!" }
 if ($result.success) { $studentToken = $result.data.accessToken; $studentId = $result.data.user.id; Write-Test "Student login" "PASS" } else { Write-Test "Student login" "FAIL" $result.error }
 Start-Sleep -Seconds 1
 

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { FileText, Sparkles, Upload, Download, Plus, AlertCircle, FileBadge, Inbox } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
-import { useAuth } from '@/app/providers/auth-provider'
+import { useAuth } from '@/app/providers/auth-context'
 import {
   useRequests,
   useDashboardStats,

@@ -9,7 +9,7 @@ import { RequestListPreview, type RequestPreviewItem } from '@/features/dashboar
 import { QuickActions, type QuickAction } from '@/features/dashboard/widgets/quick-actions'
 import { AlertBanner } from '@/features/dashboard/widgets/alert-banner'
 import { Widget } from '@/features/dashboard/widgets/widget'
-import { useAuth } from '@/app/providers/auth-provider'
+import { useAuth } from '@/app/providers/auth-context'
 
 interface RequestTypeStat {
   total: number
