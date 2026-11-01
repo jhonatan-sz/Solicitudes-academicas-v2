@@ -168,7 +168,9 @@ export class DocumentsService {
     } catch (error) {
       try {
         await this.storage.delete(storageFileName);
-      } catch {}
+      } catch {
+        // Limpieza best-effort: si falla, el error original es el que importa.
+      }
       throw error;
     }
   }
@@ -296,7 +298,9 @@ export class DocumentsService {
 
     try {
       await this.storage.delete(attachment.fileName);
-    } catch {}
+    } catch {
+      // El registro ya se borró en BD: si el archivo físico falla, no se revierte.
+    }
 
     return { message: 'Adjunto eliminado', id };
   }

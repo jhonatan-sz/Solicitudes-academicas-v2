@@ -40,7 +40,7 @@ export class EmailService implements IEmailProvider {
       });
 
       if (error) {
-        throw error;
+        throw new Error(`Resend: ${error.name}: ${error.message}`);
       }
 
       this.logger.log(`Email sent: "${options.subject}" → ${options.to}`);

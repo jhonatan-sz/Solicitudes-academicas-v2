@@ -1,9 +1,10 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import { AuthLayout } from '../layouts/auth-layout'
 import { DashboardLayout } from '../layouts/dashboard-layout'
 import { ProtectedRoute } from './protected-route'
 import { AdminRoute } from './admin-route'
 import { RoleGuard } from './role-guard'
+import { CatchAllRedirect } from './catch-all-redirect'
 import { LoginPage } from '@/pages/login/login-page'
 import { DashboardPage } from '@/pages/dashboard/dashboard-page'
 import { RequestsPage } from '@/pages/requests/requests-page'
@@ -15,7 +16,6 @@ import { NotificationsPage } from '@/pages/notifications/notifications-page'
 import { ProfilePage } from '@/pages/profile/profile-page'
 import { CreateRequest } from '@/features/requests/components/create-request'
 import { RequestDetail } from '@/features/requests/components/request-detail'
-import { useAuth } from '@/app/providers/auth-provider'
 
 export const router = createBrowserRouter([
   {
@@ -86,7 +86,3 @@ export const router = createBrowserRouter([
   },
 ])
 
-function CatchAllRedirect() {
-  const { isAuthenticated } = useAuth()
-  return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />
-}

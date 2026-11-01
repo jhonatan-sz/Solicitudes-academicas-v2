@@ -1,4 +1,10 @@
-import { IsEnum, IsOptional, IsString, MinLength, ValidateIf } from 'class-validator';
+import {
+  IsEnum,
+  IsOptional,
+  IsString,
+  MinLength,
+  ValidateIf,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { RequestStatus } from '@prisma/client';
 
@@ -19,7 +25,7 @@ export class ChangeStatusDto {
   })
   @IsString()
   @IsOptional()
-  @ValidateIf((o) => o.newStatus === 'REJECTED')
+  @ValidateIf((o: ChangeStatusDto) => o.newStatus === RequestStatus.REJECTED)
   @MinLength(10, { message: 'El comentario debe tener al menos 10 caracteres' })
   comment?: string;
 }

@@ -7,7 +7,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -15,7 +15,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const response = ctx.getResponse();
+    const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
     let statusCode: number;
@@ -23,17 +23,17 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
     if (exception instanceof HttpException) {
       statusCode = exception.getStatus();
-      const res = exception.getResponse();
-      const resObj =
-        typeof res === 'object' ? (res as Record<string, unknown>) : null;
-      message =
-        typeof res === 'string'
-          ? res
-          : resObj?.message
-            ? Array.isArray(resObj.message)
-              ? (resObj.message as string[]).join(', ')
-              : String(resObj.message)
-            : String(res);
+      const res: unknown = exception.getResponse();
+      if (typeof res === 'string') {
+        message = res;
+      } else if (res && typeof res === 'object' && 'message' in res) {
+        const rawMessage = (res as { message?: unknown }).message;
+        message = Array.isArray(rawMessage)
+          ? rawMessage.map((item) => String(item)).join(', ')
+          : String(rawMessage);
+      } else {
+        message = exception.message;
+      }
     } else if (exception instanceof Prisma.PrismaClientKnownRequestError) {
       const mapped = this.mapPrismaError(exception);
       statusCode = mapped.statusCode;

@@ -16,7 +16,6 @@ import { QueryRequestsDto } from './dto/query-requests.dto';
 import { RequestStatus, RoleName } from '@prisma/client';
 import { randomBytes } from 'crypto';
 import {
-  FINAL_STATUSES,
   RBAC_ERROR_MESSAGES,
   isFinalStatus,
   isTransitionAllowedByWorkflow,
@@ -215,7 +214,9 @@ export class RequestsService {
     }
 
     if (actorRole !== 'ADMIN' && request.userId !== actorId) {
-      throw new ForbiddenException(RBAC_ERROR_MESSAGES.CANNOT_EDIT_OTHER_REQUESTS);
+      throw new ForbiddenException(
+        RBAC_ERROR_MESSAGES.CANNOT_EDIT_OTHER_REQUESTS,
+      );
     }
 
     if (actorRole === 'STUDENT' && request.status !== 'DRAFT') {
@@ -342,7 +343,9 @@ export class RequestsService {
     }
 
     if (dto.newStatus === 'REJECTED' && !dto.comment?.trim()) {
-      throw new BadRequestException(RBAC_ERROR_MESSAGES.REJECTION_REQUIRES_COMMENT);
+      throw new BadRequestException(
+        RBAC_ERROR_MESSAGES.REJECTION_REQUIRES_COMMENT,
+      );
     }
 
     return this.changeStatusInternal(
@@ -432,7 +435,9 @@ export class RequestsService {
   }
 
   async getRequestTypeStats(typeId: string) {
-    const type = await this.prisma.requestType.findUnique({ where: { id: typeId } });
+    const type = await this.prisma.requestType.findUnique({
+      where: { id: typeId },
+    });
     if (!type) {
       throw new NotFoundException('Tipo de solicitud no encontrado');
     }
@@ -517,7 +522,11 @@ export class RequestsService {
 
   async getAcademicStats() {
     const now = new Date();
-    const finalStatuses: RequestStatus[] = ['APPROVED', 'REJECTED', 'CANCELLED'];
+    const finalStatuses: RequestStatus[] = [
+      'APPROVED',
+      'REJECTED',
+      'CANCELLED',
+    ];
 
     // Start of current week (Monday)
     const startOfWeek = new Date(now);
@@ -527,27 +536,31 @@ export class RequestsService {
     startOfWeek.setHours(0, 0, 0, 0);
 
     // 1. Indicadores Académicos (4 parallel counts)
-    const [certificatesIssued, homologationsApproved, requestsFinalized, cancellations] =
-      await Promise.all([
-        this.prisma.request.count({
-          where: {
-            status: 'APPROVED',
-            requestType: { name: 'Certificado' },
-          },
-        }),
-        this.prisma.request.count({
-          where: {
-            status: 'APPROVED',
-            requestType: { name: 'Homologación' },
-          },
-        }),
-        this.prisma.request.count({
-          where: { status: { in: finalStatuses } },
-        }),
-        this.prisma.request.count({
-          where: { status: 'CANCELLED' },
-        }),
-      ]);
+    const [
+      certificatesIssued,
+      homologationsApproved,
+      requestsFinalized,
+      cancellations,
+    ] = await Promise.all([
+      this.prisma.request.count({
+        where: {
+          status: 'APPROVED',
+          requestType: { name: 'Certificado' },
+        },
+      }),
+      this.prisma.request.count({
+        where: {
+          status: 'APPROVED',
+          requestType: { name: 'Homologación' },
+        },
+      }),
+      this.prisma.request.count({
+        where: { status: { in: finalStatuses } },
+      }),
+      this.prisma.request.count({
+        where: { status: 'CANCELLED' },
+      }),
+    ]);
 
     // 2. Rendimiento Operativo
     // Load finalized requests with minimal data for averageResponseTime and sla
@@ -579,8 +592,7 @@ export class RequestsService {
 
       averageResponseTime =
         Math.round((totalDays / finalizedRequests.length) * 10) / 10;
-      sla =
-        Math.round((withinSLA / finalizedRequests.length) * 1000) / 10;
+      sla = Math.round((withinSLA / finalizedRequests.length) * 1000) / 10;
     }
 
     // processedThisWeek

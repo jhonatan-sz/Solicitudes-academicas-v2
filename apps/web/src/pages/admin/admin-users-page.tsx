@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import {
@@ -677,7 +677,7 @@ function CreateUserDialog({
     register,
     handleSubmit,
     setValue,
-    watch,
+    control,
     reset,
     formState: { errors },
   } = useForm<CreateUserForm>({
@@ -694,7 +694,7 @@ function CreateUserDialog({
     },
   })
 
-  const selectedRoleId = watch('roleId')
+  const selectedRoleId = useWatch({ control, name: 'roleId' })
   const selectedRole = roles.find((r) => r.id === selectedRoleId)
   const isStudent = selectedRole?.name === 'STUDENT'
 
@@ -909,7 +909,7 @@ function EditUserDialog({
     register,
     handleSubmit,
     setValue,
-    watch,
+    control,
     formState: { errors },
   } = useForm<EditUserForm>({
     resolver: zodResolver(editUserSchema),
@@ -924,7 +924,7 @@ function EditUserDialog({
     },
   })
 
-  const selectedRoleId = watch('roleId')
+  const selectedRoleId = useWatch({ control, name: 'roleId' })
   const selectedRole = roles.find((r) => r.id === selectedRoleId)
   const isStudent = selectedRole?.name === 'STUDENT'
 

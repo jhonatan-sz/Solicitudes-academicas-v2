@@ -18,5 +18,19 @@ export default defineConfig([
     languageOptions: {
       globals: globals.browser,
     },
+    rules: {
+      // El router y el contexto de auth exportan un valor junto a un componente.
+      'react-refresh/only-export-components': [
+        'error',
+        { allowConstantExport: true, allowExportNames: ['useAuth', 'router'] },
+      ],
+    },
+  },
+  {
+    // Componentes de shadcn/ui: exportan variantes junto al componente por diseño.
+    files: ['src/shared/components/ui/**/*.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
   },
 ])

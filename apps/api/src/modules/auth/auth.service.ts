@@ -44,11 +44,7 @@ export class AuthService {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    const tokens = await this.generateTokens(
-      user.id,
-      user.email,
-      user.role.name,
-    );
+    const tokens = this.generateTokens(user.id, user.email, user.role.name);
 
     await this.prisma.refreshToken.create({
       data: {
@@ -103,7 +99,7 @@ export class AuthService {
 
     await this.prisma.refreshToken.delete({ where: { id: stored.id } });
 
-    const newTokens = await this.generateTokens(
+    const newTokens = this.generateTokens(
       stored.user.id,
       stored.user.email,
       stored.user.role.name,
@@ -165,7 +161,7 @@ export class AuthService {
     };
   }
 
-  private async generateTokens(userId: string, email: string, role: string) {
+  private generateTokens(userId: string, email: string, role: string) {
     const accessToken = this.jwtService.sign(
       { sub: userId, email, role },
       {

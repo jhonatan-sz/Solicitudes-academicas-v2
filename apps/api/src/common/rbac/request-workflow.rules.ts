@@ -24,20 +24,11 @@ export const FINAL_STATUSES: RequestStatus[] = [
   'CANCELLED',
 ];
 
-export const ROLES_THAT_CAN_CREATE_REQUESTS: RoleName[] = [
-  'STUDENT',
-  'ADMIN',
-];
+export const ROLES_THAT_CAN_CREATE_REQUESTS: RoleName[] = ['STUDENT', 'ADMIN'];
 
-export const ROLES_THAT_CAN_UPLOAD_DOCUMENTS: RoleName[] = [
-  'STUDENT',
-  'ADMIN',
-];
+export const ROLES_THAT_CAN_UPLOAD_DOCUMENTS: RoleName[] = ['STUDENT', 'ADMIN'];
 
-export const ROLES_THAT_CAN_DELETE_DOCUMENTS: RoleName[] = [
-  'STUDENT',
-  'ADMIN',
-];
+export const ROLES_THAT_CAN_DELETE_DOCUMENTS: RoleName[] = ['STUDENT', 'ADMIN'];
 
 export const ROLES_THAT_CAN_GENERATE_OFFICIAL_DOCUMENTS: RoleName[] = [
   'COORDINATOR',
@@ -63,12 +54,7 @@ export const ROLES_THAT_CAN_VIEW_ACADEMIC_STATS: RoleName[] = [
 export const ALLOWED_TRANSITIONS: Record<RequestStatus, RequestStatus[]> = {
   DRAFT: ['SUBMITTED', 'CANCELLED'],
   SUBMITTED: ['IN_REVIEW', 'PENDING_DOCUMENTS', 'CANCELLED'],
-  IN_REVIEW: [
-    'APPROVED',
-    'REJECTED',
-    'PENDING_DOCUMENTS',
-    'CANCELLED',
-  ],
+  IN_REVIEW: ['APPROVED', 'REJECTED', 'PENDING_DOCUMENTS', 'CANCELLED'],
   PENDING_DOCUMENTS: ['IN_REVIEW', 'CANCELLED'],
   APPROVED: [],
   REJECTED: [],
@@ -80,18 +66,16 @@ export const ALLOWED_TRANSITIONS: Record<RequestStatus, RequestStatus[]> = {
  * STAFF no aprueba, no rechaza, no crea, no genera docs.
  * Solo opera el flujo de revisión documental.
  */
-export const STAFF_ALLOWED_TRANSITIONS: Record<
-  RequestStatus,
-  RequestStatus[]
-> = {
-  DRAFT: [],
-  SUBMITTED: ['IN_REVIEW', 'PENDING_DOCUMENTS'],
-  IN_REVIEW: ['PENDING_DOCUMENTS'],
-  PENDING_DOCUMENTS: ['IN_REVIEW'],
-  APPROVED: [],
-  REJECTED: [],
-  CANCELLED: [],
-};
+export const STAFF_ALLOWED_TRANSITIONS: Record<RequestStatus, RequestStatus[]> =
+  {
+    DRAFT: [],
+    SUBMITTED: ['IN_REVIEW', 'PENDING_DOCUMENTS'],
+    IN_REVIEW: ['PENDING_DOCUMENTS'],
+    PENDING_DOCUMENTS: ['IN_REVIEW'],
+    APPROVED: [],
+    REJECTED: [],
+    CANCELLED: [],
+  };
 
 /**
  * Transiciones permitidas para COORDINATOR.
@@ -162,19 +146,15 @@ export const RBAC_ERROR_MESSAGES = {
     'No tienes permisos para crear solicitudes. Solo estudiantes y administradores pueden hacerlo.',
   CANNOT_CREATE_FOR_TARGET_ROLE:
     'El administrador solo puede crear solicitudes para estudiantes activos.',
-  CANNOT_VIEW_OTHER_REQUESTS:
-    'Solo puedes ver tus propias solicitudes.',
+  CANNOT_VIEW_OTHER_REQUESTS: 'Solo puedes ver tus propias solicitudes.',
   CANNOT_EDIT_OTHER_REQUESTS: 'Solo puedes editar tus propias solicitudes.',
   CANNOT_EDIT_NON_DRAFT:
     'Solo se pueden editar solicitudes en estado borrador.',
-  CANNOT_SUBMIT_OTHER_REQUESTS:
-    'Solo puedes enviar tus propias solicitudes.',
+  CANNOT_SUBMIT_OTHER_REQUESTS: 'Solo puedes enviar tus propias solicitudes.',
   CANNOT_SUBMIT_NON_DRAFT:
     'Solo se pueden enviar solicitudes en estado borrador.',
-  CANNOT_CANCEL_OTHER_REQUESTS:
-    'Solo puedes cancelar tus propias solicitudes.',
-  CANNOT_CANCEL_FINAL:
-    'No se puede cancelar una solicitud en estado final.',
+  CANNOT_CANCEL_OTHER_REQUESTS: 'Solo puedes cancelar tus propias solicitudes.',
+  CANNOT_CANCEL_FINAL: 'No se puede cancelar una solicitud en estado final.',
   REQUEST_IN_FINAL_STATE: (status: string) =>
     `La solicitud ya se encuentra en estado final '${status}'. Los estados finales son inmutables.`,
   REQUEST_ALREADY_IN_STATE: (status: string) =>
@@ -189,14 +169,10 @@ export const RBAC_ERROR_MESSAGES = {
     'El funcionario no puede generar documentos oficiales finales.',
   COORDINATOR_CANNOT_REQUEST_DOCS:
     'El coordinador no puede solicitar documentos adicionales. Solo el funcionario de registro puede hacerlo.',
-  COORDINATOR_CANNOT_UPLOAD:
-    'El coordinador no puede subir documentos.',
-  COORDINATOR_CANNOT_DELETE:
-    'El coordinador no puede eliminar documentos.',
-  STAFF_CANNOT_UPLOAD:
-    'El funcionario no puede subir documentos.',
-  STAFF_CANNOT_DELETE:
-    'El funcionario no puede eliminar documentos.',
+  COORDINATOR_CANNOT_UPLOAD: 'El coordinador no puede subir documentos.',
+  COORDINATOR_CANNOT_DELETE: 'El coordinador no puede eliminar documentos.',
+  STAFF_CANNOT_UPLOAD: 'El funcionario no puede subir documentos.',
+  STAFF_CANNOT_DELETE: 'El funcionario no puede eliminar documentos.',
   CANNOT_UPLOAD_IN_FINAL_STATE: (status: string) =>
     `No se pueden subir documentos a solicitudes en estado final '${status}'.`,
   CANNOT_DELETE_IN_FINAL_STATE: (status: string) =>

@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { ClipboardList, FileText, Sparkles, Inbox, AlertCircle, Clock, ArrowRight } from 'lucide-react'
 import {
   useRequests,
@@ -17,6 +18,14 @@ export function StaffDashboard() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const { data: stats, isLoading: statsLoading } = useDashboardStats()
+
+  // Reloj del dashboard: un valor estable durante el render y que se refresca
+  // cada minuto, en vez de leer Date.now() (impuro) durante el render.
+  const [now, setNow] = useState(() => Date.now())
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 60_000)
+    return () => clearInterval(id)
+  }, [])
 
   const { data: queueData, isLoading: queueLoading } = useRequests({
     page: 1,
@@ -51,7 +60,7 @@ export function StaffDashboard() {
   ]
 
   const slaItems = queueItems
-    .filter((r) => Date.now() - new Date(r.createdAt).getTime() > 3 * 24 * 60 * 60 * 1000)
+    .filter((r) => now - new Date(r.createdAt).getTime() > 3 * 24 * 60 * 60 * 1000)
     .slice(0, 3)
 
   const activityItems: ActivityItem[] = queueItems.slice(0, 5).map((req) => ({
@@ -164,7 +173,7 @@ export function StaffDashboard() {
           <ul className="space-y-1.5 -mx-1">
             {slaItems.map((item) => {
               const days = Math.floor(
-                (Date.now() - new Date(item.createdAt).getTime()) / (1000 * 60 * 60 * 24),
+                (now - new Date(item.createdAt).getTime()) / (1000 * 60 * 60 * 24),
               )
               return (
                 <li key={item.id}>

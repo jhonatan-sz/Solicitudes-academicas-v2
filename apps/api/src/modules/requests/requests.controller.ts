@@ -65,10 +65,7 @@ export class RequestsController {
     description: 'Solo STUDENT y ADMIN pueden crear solicitudes',
   })
   @ApiBadRequestResponse({ description: 'Cuerpo de solicitud inválido' })
-  create(
-    @Req() req: AuthenticatedRequest,
-    @Body() dto: CreateRequestDto,
-  ) {
+  create(@Req() req: AuthenticatedRequest, @Body() dto: CreateRequestDto) {
     const role = req.user.role as 'STUDENT' | 'ADMIN';
     return this.requestsService.create(req.user.id, role, dto);
   }

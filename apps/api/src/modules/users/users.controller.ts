@@ -105,9 +105,7 @@ export class UsersController {
   })
   @ApiOkResponse({ description: 'Lista de actividades recientes' })
   @ApiNotFoundResponse({ description: 'Usuario no encontrado' })
-  getUserActivity(
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
+  getUserActivity(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.getUserActivity(id);
   }
 

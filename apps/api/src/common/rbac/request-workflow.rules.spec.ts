@@ -22,11 +22,7 @@ import {
 describe('request-workflow.rules - Modelo RBAC 4B', () => {
   describe('Estados finales', () => {
     it('APPROVED, REJECTED, CANCELLED son estados finales', () => {
-      expect(FINAL_STATUSES).toEqual([
-        'APPROVED',
-        'REJECTED',
-        'CANCELLED',
-      ]);
+      expect(FINAL_STATUSES).toEqual(['APPROVED', 'REJECTED', 'CANCELLED']);
     });
 
     it('isFinalStatus detecta los 3 estados finales', () => {
@@ -245,9 +241,9 @@ describe('request-workflow.rules - Modelo RBAC 4B', () => {
     });
 
     it('STAFF puede: SUBMITTED -> IN_REVIEW', () => {
-      expect(isTransitionAllowedForRole('SUBMITTED', 'IN_REVIEW', 'STAFF')).toBe(
-        true,
-      );
+      expect(
+        isTransitionAllowedForRole('SUBMITTED', 'IN_REVIEW', 'STAFF'),
+      ).toBe(true);
     });
 
     it('STAFF puede: SUBMITTED -> PENDING_DOCUMENTS', () => {
@@ -319,9 +315,9 @@ describe('request-workflow.rules - Modelo RBAC 4B', () => {
 
   describe('Matriz de transiciones por rol - ADMIN', () => {
     it('ADMIN puede ejecutar todas las acciones operativas de STAFF', () => {
-      expect(isTransitionAllowedForRole('SUBMITTED', 'IN_REVIEW', 'ADMIN')).toBe(
-        true,
-      );
+      expect(
+        isTransitionAllowedForRole('SUBMITTED', 'IN_REVIEW', 'ADMIN'),
+      ).toBe(true);
       expect(
         isTransitionAllowedForRole('SUBMITTED', 'PENDING_DOCUMENTS', 'ADMIN'),
       ).toBe(true);
@@ -355,15 +351,15 @@ describe('request-workflow.rules - Modelo RBAC 4B', () => {
     });
 
     it('ADMIN NO puede saltarse el workflow (SUBMITTED -> APPROVED)', () => {
-      expect(
-        isTransitionAllowedForRole('SUBMITTED', 'APPROVED', 'ADMIN'),
-      ).toBe(false);
+      expect(isTransitionAllowedForRole('SUBMITTED', 'APPROVED', 'ADMIN')).toBe(
+        false,
+      );
     });
 
     it('ADMIN NO puede saltarse el workflow (SUBMITTED -> REJECTED)', () => {
-      expect(
-        isTransitionAllowedForRole('SUBMITTED', 'REJECTED', 'ADMIN'),
-      ).toBe(false);
+      expect(isTransitionAllowedForRole('SUBMITTED', 'REJECTED', 'ADMIN')).toBe(
+        false,
+      );
     });
 
     it('ADMIN no puede salir de un estado final', () => {
@@ -375,9 +371,7 @@ describe('request-workflow.rules - Modelo RBAC 4B', () => {
         'CANCELLED',
       ];
       for (const to of targets) {
-        expect(isTransitionAllowedForRole('APPROVED', to, 'ADMIN')).toBe(
-          false,
-        );
+        expect(isTransitionAllowedForRole('APPROVED', to, 'ADMIN')).toBe(false);
       }
     });
 

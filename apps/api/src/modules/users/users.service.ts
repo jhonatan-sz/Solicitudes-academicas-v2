@@ -399,7 +399,6 @@ export class UsersService {
       throw new NotFoundException('Usuario no encontrado');
     }
 
-    const effectiveRoleId = dto.roleId ?? existing.roleId;
     const role = dto.roleId
       ? await this.prisma.role.findUnique({ where: { id: dto.roleId } })
       : existing.role;
