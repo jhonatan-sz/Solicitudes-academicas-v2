@@ -202,7 +202,8 @@ cd apps/api && npm run lint
 cd apps/web && npm run lint
 ```
 
-El CI corre lint, tests y build de ambos paquetes en cada push y PR a `main`.
+El CI corre lint, tests y build de la API (además del smoke e2e contra un
+PostgreSQL de servicio) y lint y build de la web en cada push y PR a `main`.
 
 ## Estructura
 

@@ -41,6 +41,51 @@ jobs:
       - name: Build
         run: npm run build
 
+  e2e:
+    name: API (smoke e2e con PostgreSQL)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/api
+    env:
+      DATABASE_URL: postgresql://solicitudes:solicitudes@localhost:5432/solicitudes
+      JWT_SECRET: ci_secret_de_pruebas_con_32_caracteres
+      JWT_REFRESH_SECRET: ci_refresh_secret_con_32_caracteres
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: solicitudes
+          POSTGRES_PASSWORD: solicitudes
+          POSTGRES_DB: solicitudes
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U solicitudes -d solicitudes"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/api/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Generar cliente Prisma
+        run: npx prisma generate
+
+      - name: Aplicar migraciones
+        run: npx prisma migrate deploy
+
+      - name: Smoke e2e
+        run: npm run test:e2e
+
   web:
     name: Web (lint, build)
     runs-on: ubuntu-latest
